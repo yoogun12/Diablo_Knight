@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     Rigidbody2D rb;
     Animator ani;
 
-    Vector2 input;
+    public Vector2 input;
     Vector2 velocity;
 
     private void Awake()
@@ -32,14 +32,15 @@ public class Player : MonoBehaviour
         if (input.x != 0)
         {
             Vector3 scale = transform.localScale;
-            scale.x = input.x > 0 ? 0.1f : -0.1f;  // 오른쪽이면 x=1, 왼쪽이면 x=-1
+            scale.x = input.x > 0 ? 0.08f : -0.08f;  
             transform.localScale = scale;
         }
 
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
+        Vector2 nextVec = input.normalized * moveSpeed * Time.fixedDeltaTime;
         rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
     }
 }
