@@ -9,6 +9,10 @@ public class Enemy : MonoBehaviour
 
     public int contactDamage = 10; // 플레이어 접촉 시 데미지
 
+    public GameObject coinPrefab; // 드롭할 코인 프리팹
+    [Range(0f, 1f)]
+    public float coinDropChance = 0.3f; // 코인 드롭 확률 (예: 30%)
+
     Rigidbody2D rigid;
     SpriteRenderer spriter;
     Animator ani;
@@ -60,4 +64,18 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    // 이 메서드를 외부에서 호출해서 적을 죽일 수 있음
+    public void Die()
+    {
+        TryDropCoin();
+        Destroy(gameObject); // 적 오브젝트 제거
+    }
+
+    private void TryDropCoin()
+    {
+        if (coinPrefab != null && Random.value < coinDropChance)
+        {
+            Instantiate(coinPrefab, transform.position, Quaternion.identity);
+        }
+    }
 }
