@@ -25,8 +25,15 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
-        // 적 사망 처리
-        Destroy(gameObject);  // 적 게임오브젝트 제거
+        // Enemy 스크립트 가져오기
+        Enemy enemy = GetComponent<Enemy>();
+        if (enemy != null)
+        {
+            enemy.Die();  // 코인 드롭 포함한 Die 호출
+        }
+        else
+        {
+            Destroy(gameObject); // 안전하게 그냥 제거
+        }
     }
-
 }

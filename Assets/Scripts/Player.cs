@@ -22,7 +22,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     public Transform firePoint;     // 총알 발사 위치
 
-    public int coinScore;
+    // 이번 플레이에서 획득한 코인 점수
+    private int sessionCoinScore = 0;
 
     public TextMeshProUGUI uiCoin;
 
@@ -76,22 +77,46 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
         if (collision.CompareTag("Coin"))
         {
             CoinItem coin = collision.GetComponent<CoinItem>();
+            if (coin == null)
+            {
+                Debug.LogWarning("CoinItem 컴포넌트가 없습니다.");
+                return;
+            }
 
-            coinScore += coin.GetCoin();
-            uiCoin.text = coinScore.ToString();
+            sessionCoinScore += coin.GetCoin();
 
- 
-
-           // if (!GameDataManager.Instance.playerData.collectedCoins.Contains(coinID))
-           // {
-           //     GameDataManager.Instance.playerData.collectedCoins.Add(coinID);
-           // }
+            if (uiCoin != null)
+            {
+                uiCoin.text = sessionCoinScore.ToString();
+            }
+            else
+            {
+                Debug.LogWarning("uiCoin이 할당되어 있지 않습니다.");
+            }
 
             Destroy(collision.gameObject);
         }
+    }
+
+    // 게임 종료 시 호출해서 세션 코인을 누적 코인에 더하고 저장하세요
+    public void OnGameOver()
+    {
+        if (GameDataManager.Instance == null)
+        {
+            Debug.LogError("GameDataManager.Instance가 할당되어 있지 않습니다.");
+            return;
+        }
+
+        if (GameDataManager.Instance.playerData == null)
+        {
+            Debug.LogError("playerData가 초기화되지 않았습니다.");
+            return;
+        }
+
+        GameDataManager.Instance.playerData.totalCoins += sessionCoinScore;
+        GameDataManager.Instance.SaveData(GameDataManager.Instance.playerData);
     }
 }

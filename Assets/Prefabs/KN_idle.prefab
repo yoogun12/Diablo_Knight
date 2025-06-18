@@ -152,6 +152,8 @@ MonoBehaviour:
   speed: 1.7
   target: {fileID: 0}
   contactDamage: 10
+  coinPrefab: {fileID: 5886810017958339212, guid: 0eec16f9615ff994d81a187abdf55057, type: 3}
+  coinDropChance: 1
 --- !u!61 &300415317769762325
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -210,4 +212,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 50
-  currentHealth: 0
