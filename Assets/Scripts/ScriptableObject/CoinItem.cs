@@ -5,19 +5,10 @@ using static UnityEditor.Progress;
 
 public class CoinItem : MonoBehaviour
 {
-    public CoinItemSo itemData; // 연결된 아이템 데이터 (ScriptableObject)
+    [SerializeField] CoinItemSo data;
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public int GetCoin()
     {
-        if (other.CompareTag("Player"))
-        {
-            //CoinInventory coinInventory = other.GetComponent<CoinInventory>();
-           // if (coinInventory != null && itemData != null)
-           // {
-           //     coinInventory.AddCoins(itemData.value);
-           // }
-
-            Destroy(gameObject); // 코인 오브젝트 제거
-        }
+        return data.coin;
     }
 }

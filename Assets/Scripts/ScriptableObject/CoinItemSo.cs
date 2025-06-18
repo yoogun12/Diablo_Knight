@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class CoinItemSo : ScriptableObject
 {
-    public string itemName;
-    public Sprite icon;
-    public int value;
+    [Header("Coin Value")]
+    public int coin = 100;
 }

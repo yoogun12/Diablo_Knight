@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Player : MonoBehaviour
 {
@@ -18,6 +21,10 @@ public class Player : MonoBehaviour
     public GameObject bulletPrefab; // ÃÑ¾Ë ÇÁ¸®ÆÕ
     [SerializeField]
     public Transform firePoint;     // ÃÑ¾Ë ¹ß»ç À§Ä¡
+
+    public int coin;
+
+    public TextMeshProUGUI uiCoin;
 
     private void Awake()
     {
@@ -65,5 +72,16 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        
+        if(collision.CompareTag("Coin"))
+        {
+            coin += collision.GetComponent<CoinItem>().GetCoin();
+            Destroy(collision.gameObject);
+            uiCoin.text = "coin : " + coin.ToString();
+        }
     }
 }
