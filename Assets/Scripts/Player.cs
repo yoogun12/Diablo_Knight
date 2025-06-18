@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     public Transform firePoint;     // 총알 발사 위치
 
-    public int coin;
+    public int coinScore;
 
     public TextMeshProUGUI uiCoin;
 
@@ -76,12 +76,22 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-        if(collision.CompareTag("Coin"))
+
+        if (collision.CompareTag("Coin"))
         {
-            coin += collision.GetComponent<CoinItem>().GetCoin();
+            CoinItem coin = collision.GetComponent<CoinItem>();
+
+            coinScore += coin.GetCoin();
+            uiCoin.text = coinScore.ToString();
+
+ 
+
+           // if (!GameDataManager.Instance.playerData.collectedCoins.Contains(coinID))
+           // {
+           //     GameDataManager.Instance.playerData.collectedCoins.Add(coinID);
+           // }
+
             Destroy(collision.gameObject);
-            uiCoin.text = "coin : " + coin.ToString();
         }
     }
 }
