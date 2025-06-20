@@ -94,9 +94,15 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
+        if (ani != null)
+        {
+            ani.SetTrigger("Die");
+        }
+
+        // 실제 파괴는 애니메이션 이벤트에서 수행
         TryDropCoin();
         TryDropPowerUp();
-        Destroy(gameObject);
+        StartCoroutine(DelayedDestroy());
     }
 
     private void TryDropCoin()
@@ -131,5 +137,11 @@ public class Enemy : MonoBehaviour
             PowerUpItemInstance instance = drop.GetComponent<PowerUpItemInstance>();
             instance.itemData = randomItem;
         }
+    }
+
+    private IEnumerator DelayedDestroy()
+    {
+        yield return new WaitForSeconds(0.5f); // 애니메이션 길이에 맞게 설정
+        Destroy(gameObject);
     }
 }
