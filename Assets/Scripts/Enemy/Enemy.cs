@@ -6,20 +6,21 @@ public class Enemy : MonoBehaviour
 {
     public float speed;
     public Rigidbody2D target;
-
-    public int contactDamage = 10; // 플레이어 접촉 시 데미지
-
-    public GameObject coinPrefab; // 드롭할 코인 프리팹
+    public int contactDamage = 10;
+    public GameObject coinPrefab;
     [Range(0f, 1f)]
-    public float coinDropChance = 1f; // 코인 드롭 확률 (예: 30%)
+    public float coinDropChance = 1f;
 
     Rigidbody2D rigid;
     SpriteRenderer spriter;
     Animator ani;
 
-    // 지속 데미지용 시간 체크 변수
-    private float damageInterval = 1.0f; // 1초마다 데미지
+    private float damageInterval = 1.0f;
     private Dictionary<GameObject, float> lastDamageTimeDict = new Dictionary<GameObject, float>();
+
+    public GameObject powerUpPrefab; // PowerUpItemInstance 프리팹
+    [Range(0f, 1f)] public float powerUpDropChance = 0.2f; // 파워업 드롭 확률
+    public PowerUpItem[] possiblePowerUps; // 에디터에서 등록할 수 있는 아이템 리스트
 
     private void Awake()
     {
@@ -31,9 +32,7 @@ public class Enemy : MonoBehaviour
         {
             GameObject playerObj = GameObject.FindWithTag("Player");
             if (playerObj != null)
-            {
                 target = playerObj.GetComponent<Rigidbody2D>();
-            }
         }
     }
 
@@ -62,7 +61,7 @@ public class Enemy : MonoBehaviour
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(contactDamage);
-                lastDamageTimeDict[collision.gameObject] = Time.time; // 데미지 준 시간 기록
+                lastDamageTimeDict[collision.gameObject] = Time.time;
             }
         }
     }
@@ -76,9 +75,7 @@ public class Enemy : MonoBehaviour
             {
                 float lastDamageTime;
                 if (!lastDamageTimeDict.TryGetValue(collision.gameObject, out lastDamageTime))
-                {
                     lastDamageTime = 0f;
-                }
 
                 if (Time.time - lastDamageTime >= damageInterval)
                 {
@@ -92,36 +89,47 @@ public class Enemy : MonoBehaviour
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (lastDamageTimeDict.ContainsKey(collision.gameObject))
-        {
             lastDamageTimeDict.Remove(collision.gameObject);
-        }
     }
 
     public void Die()
     {
         TryDropCoin();
+        TryDropPowerUp();
         Destroy(gameObject);
     }
 
     private void TryDropCoin()
     {
-        Debug.Log("TryDropCoin called");
-        if (coinPrefab != null)
+        if (coinPrefab != null && Random.value < coinDropChance)
+            Instantiate(coinPrefab, transform.position, Quaternion.identity);
+    }
+
+    //  피격 효과 메서드
+    public void HitFlash()
+    {
+        StartCoroutine(HitFlashRoutine());
+    }
+
+    private IEnumerator HitFlashRoutine()
+    {
+        Color originalColor = spriter.color;
+        spriter.color = new Color(1f, 1f, 1f, 0.6f); // 반투명 흰색
+        yield return new WaitForSeconds(0.1f);
+        spriter.color = originalColor;
+    }
+
+    private void TryDropPowerUp()
+    {
+        if (powerUpPrefab == null || possiblePowerUps.Length == 0)
+            return;
+
+        if (Random.value < powerUpDropChance)
         {
-            Debug.Log("coinPrefab is assigned");
-            if (Random.value < coinDropChance)
-            {
-                Debug.Log("Coin drop success");
-                Instantiate(coinPrefab, transform.position, Quaternion.identity);
-            }
-            else
-            {
-                Debug.Log("Coin drop failed by chance");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("coinPrefab is null!");
+            PowerUpItem randomItem = possiblePowerUps[Random.Range(0, possiblePowerUps.Length)];
+            GameObject drop = Instantiate(powerUpPrefab, transform.position, Quaternion.identity);
+            PowerUpItemInstance instance = drop.GetComponent<PowerUpItemInstance>();
+            instance.itemData = randomItem;
         }
     }
 }

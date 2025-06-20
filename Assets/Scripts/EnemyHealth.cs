@@ -7,15 +7,23 @@ public class EnemyHealth : MonoBehaviour
     public int maxHealth = 50;
     private int currentHealth;
 
+    private Enemy enemy; // Enemy 참조
+
     private void Awake()
     {
         currentHealth = maxHealth;
+        enemy = GetComponent<Enemy>(); // Enemy 컴포넌트 가져오기
     }
 
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
         Debug.Log("Enemy HP: " + currentHealth);
+
+        if (enemy != null)
+        {
+            enemy.HitFlash(); //  피격 이펙트 호출
+        }
 
         if (currentHealth <= 0)
         {
@@ -25,15 +33,13 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
-        // Enemy 스크립트 가져오기
-        Enemy enemy = GetComponent<Enemy>();
         if (enemy != null)
         {
-            enemy.Die();  // 코인 드롭 포함한 Die 호출
+            enemy.Die(); // 애니메이션 + 코인 드롭 포함
         }
         else
         {
-            Destroy(gameObject); // 안전하게 그냥 제거
+            Destroy(gameObject); // 안전 제거
         }
     }
 }

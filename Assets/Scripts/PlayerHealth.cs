@@ -21,6 +21,11 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= damage;
         Debug.Log("Player HP: " + currentHealth);
 
+        if (player != null)
+        {
+            player.HitFlash(); // 피격 효과 호출
+        }
+
         if (currentHealth <= 0)
         {
             currentHealth = 0;
