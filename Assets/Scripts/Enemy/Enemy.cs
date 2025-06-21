@@ -22,6 +22,8 @@ public class Enemy : MonoBehaviour
     [Range(0f, 1f)] public float powerUpDropChance = 0.2f; // 파워업 드롭 확률
     public PowerUpItem[] possiblePowerUps; // 에디터에서 등록할 수 있는 아이템 리스트
 
+    private bool isDead = false;
+
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -38,6 +40,8 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isDead || target == null) return; // 죽었으면 이동 중단
+
         Vector2 dirVec = target.position - rigid.position;
         Vector2 nextVec = dirVec.normalized * speed * Time.fixedDeltaTime;
         rigid.MovePosition(rigid.position + nextVec);
@@ -94,12 +98,14 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
+        if (isDead) return; // 중복 방지
+        isDead = true;
+
         if (ani != null)
         {
             ani.SetTrigger("Die");
         }
 
-        // 실제 파괴는 애니메이션 이벤트에서 수행
         TryDropCoin();
         TryDropPowerUp();
         StartCoroutine(DelayedDestroy());

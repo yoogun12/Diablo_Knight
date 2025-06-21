@@ -154,6 +154,9 @@ MonoBehaviour:
   contactDamage: 10
   coinPrefab: {fileID: 5886810017958339212, guid: 0eec16f9615ff994d81a187abdf55057, type: 3}
   coinDropChance: 1
+  powerUpPrefab: {fileID: 0}
+  powerUpDropChance: 0.2
+  possiblePowerUps: []
 --- !u!61 &300415317769762325
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -212,3 +215,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 50
+  damageTextPrefab: {fileID: 3109865443709745965, guid: 2b5ff2bbaa6de8e459430b1c10e6cbfb, type: 3}
