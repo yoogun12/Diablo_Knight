@@ -28,7 +28,6 @@ public class Player : MonoBehaviour
     private Dictionary<PowerUpItem.PowerUpType, float> remainingTimes = new(); // 남은 시간 추적
 
     private int baseBulletCount = 1;
-    private float baseMoveSpeed = 3f;
     private float powerUpDuration = 10f;
 
     private void Awake()
