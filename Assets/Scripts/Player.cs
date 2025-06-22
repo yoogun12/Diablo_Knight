@@ -5,30 +5,34 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Movement")]
     float moveSpeed = 3f;
+    Vector2 input;
+    Vector2 velocity;
+    Vector2 lastInput = Vector2.right;
+
+    [Header("Shooting")]
     public int bulletCount = 1;
     public float damage = 20f;
+    public float bulletSpeed = 10f;
+    private int baseBulletCount = 1;
+
+    [SerializeField] GameObject bulletPrefab;
+    [SerializeField] Transform firePoint;
+
+    [Header("Coin & UI")]
+    private int sessionCoinScore = 0;
+    public TextMeshProUGUI uiCoin;
+    public TextMeshProUGUI powerUpTimerText;
+
+    [Header("Power Up")]
+    private float powerUpDuration = 10f;
+    private Dictionary<PowerUpItem.PowerUpType, Coroutine> activePowerUps = new();
+    private Dictionary<PowerUpItem.PowerUpType, float> remainingTimes = new();
 
     Rigidbody2D rb;
     Animator ani;
     SpriteRenderer spriter;
-
-    public Vector2 input;
-    Vector2 velocity;
-    Vector2 lastInput = Vector2.right;
-
-    [SerializeField] public GameObject bulletPrefab;
-    [SerializeField] public Transform firePoint;
-
-    private int sessionCoinScore = 0;
-    public TextMeshProUGUI uiCoin;
-    public TextMeshProUGUI powerUpTimerText; // UI 연결용
-
-    private Dictionary<PowerUpItem.PowerUpType, Coroutine> activePowerUps = new();
-    private Dictionary<PowerUpItem.PowerUpType, float> remainingTimes = new(); // 남은 시간 추적
-
-    private int baseBulletCount = 1;
-    private float powerUpDuration = 10f;
 
     private void Awake()
     {
@@ -41,8 +45,8 @@ public class Player : MonoBehaviour
     {
         input.x = Input.GetAxisRaw("Horizontal");
         input.y = Input.GetAxisRaw("Vertical");
-
         input = input.normalized;
+
         velocity = input * moveSpeed;
 
         if (input != Vector2.zero)
@@ -61,6 +65,11 @@ public class Player : MonoBehaviour
             Shoot();
     }
 
+    void FixedUpdate()
+    {
+        rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
+    }
+
     void Shoot()
     {
         Vector2 shootDir = input == Vector2.zero ? lastInput : input;
@@ -69,8 +78,7 @@ public class Player : MonoBehaviour
         {
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
             DarkBall darkBall = bullet.GetComponent<DarkBall>();
-            darkBall.Initialize(shootDir.normalized);
-            DarkBall.damage = Mathf.RoundToInt(damage);
+            darkBall.Initialize(shootDir.normalized, bulletSpeed, Mathf.RoundToInt(damage));
         }
         else
         {
@@ -80,18 +88,13 @@ public class Player : MonoBehaviour
             for (int i = 0; i < bulletCount; i++)
             {
                 float angle = startAngle + angleStep * i;
-                Vector2 dir = Quaternion.Euler(0, 0, angle) * shootDir;
+                Vector2 rotatedDir = Quaternion.Euler(0, 0, angle) * shootDir;
+
                 GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
                 DarkBall darkBall = bullet.GetComponent<DarkBall>();
-                darkBall.Initialize(dir.normalized);
-                DarkBall.damage = Mathf.RoundToInt(damage);
+                darkBall.Initialize(rotatedDir.normalized, bulletSpeed, Mathf.RoundToInt(damage));
             }
         }
-    }
-
-    void FixedUpdate()
-    {
-        rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -149,7 +152,7 @@ public class Player : MonoBehaviour
                 bulletCount += Mathf.RoundToInt(powerUp.powerUpValue);
                 break;
             case PowerUpItem.PowerUpType.BulletSpeed:
-                bulletPrefab.GetComponent<DarkBall>().speed += powerUp.powerUpValue;
+                bulletSpeed += powerUp.powerUpValue;
                 break;
             case PowerUpItem.PowerUpType.Damage:
                 damage += powerUp.powerUpValue;
@@ -176,7 +179,7 @@ public class Player : MonoBehaviour
         {
             timeLeft -= Time.deltaTime;
             remainingTimes[powerUp.powerUpType] = timeLeft;
-            UpdatePowerUpUI(powerUp);
+            UpdatePowerUpUI();
             yield return null;
         }
 
@@ -186,7 +189,7 @@ public class Player : MonoBehaviour
                 bulletCount = baseBulletCount;
                 break;
             case PowerUpItem.PowerUpType.BulletSpeed:
-                bulletPrefab.GetComponent<DarkBall>().speed = 10f;
+                bulletSpeed = 10f;
                 break;
             case PowerUpItem.PowerUpType.Damage:
                 damage = 20f;
@@ -195,12 +198,14 @@ public class Player : MonoBehaviour
 
         remainingTimes.Remove(powerUp.powerUpType);
         activePowerUps.Remove(powerUp.powerUpType);
-        if (remainingTimes.Count == 0 && powerUpTimerText != null)
-            powerUpTimerText.text = "";
+
+        if (remainingTimes.Count == 0)
+            ClearPowerUpUI();
+
         Debug.Log($"{powerUp.itemName} 효과 종료됨");
     }
 
-    private void UpdatePowerUpUI(PowerUpItem powerUp)
+    private void UpdatePowerUpUI()
     {
         if (powerUpTimerText == null) return;
 
@@ -211,5 +216,11 @@ public class Player : MonoBehaviour
         }
 
         powerUpTimerText.text = result;
+    }
+
+    private void ClearPowerUpUI()
+    {
+        if (powerUpTimerText != null)
+            powerUpTimerText.text = "";
     }
 }

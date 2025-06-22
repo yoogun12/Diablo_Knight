@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss : MonoBehaviour
+public class GoldBoss : MonoBehaviour
 {
     public float speed = 1.5f; // 일반 적보다 느리게
     public int contactDamage = 30;
@@ -14,6 +14,9 @@ public class Boss : MonoBehaviour
 
     private float damageInterval = 1.5f;
     private Dictionary<GameObject, float> lastDamageTimeDict = new Dictionary<GameObject, float>();
+
+    // 플래그 대신 Coroutine 저장해서 중복 실행 제어
+    private Coroutine flashCoroutine;
 
     void Awake()
     {
@@ -88,10 +91,13 @@ public class Boss : MonoBehaviour
             lastDamageTimeDict.Remove(collision.gameObject);
     }
 
-    // 피격 이펙트 (선택 사항)
+    // 피격 이펙트 (중복 실행 방지)
     public void HitFlash()
     {
-        StartCoroutine(HitFlashRoutine());
+        if (flashCoroutine != null)
+            StopCoroutine(flashCoroutine);
+
+        flashCoroutine = StartCoroutine(HitFlashRoutine());
     }
 
     private IEnumerator HitFlashRoutine()
@@ -100,5 +106,7 @@ public class Boss : MonoBehaviour
         spriter.color = new Color(1f, 0.5f, 0.5f, 0.7f); // 빨간 느낌
         yield return new WaitForSeconds(0.1f);
         spriter.color = originalColor;
+
+        flashCoroutine = null;
     }
 }

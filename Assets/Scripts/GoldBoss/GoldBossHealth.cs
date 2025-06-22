@@ -7,22 +7,60 @@ public class GoldBossHealth : MonoBehaviour
 {
     public int maxHealth = 500;
     private int currentHealth;
-    private Boss boss;
+    private GoldBoss goldboss;
+
+    // 데미지 텍스트 프리팹 할당
+    public GameObject damageTextPrefab;
 
     void Awake()
     {
         currentHealth = maxHealth;
-        boss = GetComponent<Boss>();
+        goldboss = GetComponent<GoldBoss>();
     }
 
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        boss?.HitFlash();
+
+        if (goldboss != null)
+            goldboss.HitFlash();
+
+        ShowDamageText(damage);
 
         if (currentHealth <= 0)
         {
+            // 게임 클리어 씬으로 이동
             SceneManager.LoadScene("GameClear");
         }
+    }
+
+    private void ShowDamageText(int damage)
+    {
+        if (damageTextPrefab == null) return;
+
+        GameObject canvasObj = GameObject.Find("WorldCanvas");
+        if (canvasObj == null) return;
+
+        Canvas canvas = canvasObj.GetComponent<Canvas>();
+        if (canvas == null) return;
+
+        // 보스 위치에서 약간 위쪽으로 데미지 텍스트 위치 조정
+        Vector3 worldPos = transform.position + new Vector3(0.5f, 1.5f, 0f);
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
+
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvas.transform as RectTransform,
+            screenPos,
+            canvas.worldCamera,
+            out Vector2 localPoint
+        );
+
+        GameObject textObj = Instantiate(damageTextPrefab, canvas.transform);
+        RectTransform rect = textObj.GetComponent<RectTransform>();
+        rect.localPosition = localPoint;
+
+        DamageText dmgText = textObj.GetComponent<DamageText>();
+        if (dmgText != null)
+            dmgText.SetText(damage);
     }
 }
