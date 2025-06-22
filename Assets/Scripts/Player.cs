@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class Player : MonoBehaviour
 {
     float moveSpeed = 3f;
     public int bulletCount = 1;
+    public float damage = 20f; //  파워업용 공격력 변수
 
     Rigidbody2D rb;
     Animator ani;
@@ -29,7 +28,7 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         ani = GetComponent<Animator>();
-        spriter = GetComponent<SpriteRenderer>(); // SpriteRenderer 초기화
+        spriter = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -63,11 +62,13 @@ public class Player : MonoBehaviour
         if (bulletCount == 1)
         {
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
-            bullet.GetComponent<DarkBall>().Initialize(shootDir.normalized);
+            DarkBall darkBall = bullet.GetComponent<DarkBall>();
+            darkBall.Initialize(shootDir.normalized);
+            darkBall.damage = Mathf.RoundToInt(damage); // float → int 변환
         }
         else
         {
-            float angleStep = 30f; // 퍼지는 각도 범위 (총각도)
+            float angleStep = 30f;
             float startAngle = -angleStep * (bulletCount - 1) / 2f;
 
             for (int i = 0; i < bulletCount; i++)
@@ -75,7 +76,9 @@ public class Player : MonoBehaviour
                 float angle = startAngle + angleStep * i;
                 Vector2 dir = Quaternion.Euler(0, 0, angle) * shootDir;
                 GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
-                bullet.GetComponent<DarkBall>().Initialize(dir.normalized);
+                DarkBall darkBall = bullet.GetComponent<DarkBall>();
+                darkBall.Initialize(dir.normalized);
+                darkBall.damage = Mathf.RoundToInt(damage); // float → int 변환
             }
         }
     }
@@ -119,7 +122,6 @@ public class Player : MonoBehaviour
         GameDataManager.Instance.SaveData(GameDataManager.Instance.playerData);
     }
 
-    // 피격 효과 메서드
     public void HitFlash()
     {
         StartCoroutine(HitFlashRoutine());
@@ -128,7 +130,7 @@ public class Player : MonoBehaviour
     private IEnumerator HitFlashRoutine()
     {
         Color originalColor = spriter.color;
-        spriter.color = new Color(1f, 1f, 1f, 0.64f); // 반투명 흰색
+        spriter.color = new Color(1f, 1f, 1f, 0.64f);
         yield return new WaitForSeconds(0.1f);
         spriter.color = originalColor;
     }
@@ -143,13 +145,11 @@ public class Player : MonoBehaviour
             case PowerUpItem.PowerUpType.BulletSpeed:
                 bulletPrefab.GetComponent<DarkBall>().speed += powerUp.powerUpValue;
                 break;
-            case PowerUpItem.PowerUpType.MoveSpeed:
-                moveSpeed += powerUp.powerUpValue;
+            case PowerUpItem.PowerUpType.Damage:
+                damage += powerUp.powerUpValue; //  파워업 적용
                 break;
-                // 필요한 경우 추가 가능
         }
 
         Debug.Log($"PowerUp applied: {powerUp.itemName}");
     }
-
 }

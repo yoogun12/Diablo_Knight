@@ -81217,7 +81217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c257506455a4a04e9a641e63b42fb89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemData: {fileID: 11400000, guid: ea99fea89b1dbf74f878beb7a4daff9d, type: 2}
+  itemData: {fileID: 11400000, guid: 4797ed30059fcae479d3ad7c74c2e98e, type: 2}
 --- !u!58 &1222807831
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -81731,6 +81731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletCount: 1
+  damage: 20
   input: {x: 0, y: 0}
   bulletPrefab: {fileID: 2318905696601965183, guid: 31c9ff3a424922e418d7e55cafc452bc, type: 3}
   firePoint: {fileID: 398033166}
