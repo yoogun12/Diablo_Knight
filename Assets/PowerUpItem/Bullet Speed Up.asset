@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: 
   icon: {fileID: 0}
   powerUpType: 1
-  powerUpValue: 50
+  powerUpValue: 30

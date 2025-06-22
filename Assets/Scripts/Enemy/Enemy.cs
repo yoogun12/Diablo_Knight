@@ -18,9 +18,9 @@ public class Enemy : MonoBehaviour
     private float damageInterval = 1.0f;
     private Dictionary<GameObject, float> lastDamageTimeDict = new Dictionary<GameObject, float>();
 
-    public GameObject powerUpPrefab; // PowerUpItemInstance 프리팹
+    // 여러 파워업 프리팹 중 하나를 랜덤 드롭
+    public GameObject[] powerUpPrefabs; // 인스펙터에서 여러 프리팹 등록
     [Range(0f, 1f)] public float powerUpDropChance = 0.2f; // 파워업 드롭 확률
-    public PowerUpItem[] possiblePowerUps; // 에디터에서 등록할 수 있는 아이템 리스트
 
     private bool isDead = false;
 
@@ -40,7 +40,7 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isDead || target == null) return; // 죽었으면 이동 중단
+        if (isDead || target == null) return;
 
         Vector2 dirVec = target.position - rigid.position;
         Vector2 nextVec = dirVec.normalized * speed * Time.fixedDeltaTime;
@@ -98,7 +98,7 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
-        if (isDead) return; // 중복 방지
+        if (isDead) return;
         isDead = true;
 
         if (ani != null)
@@ -117,7 +117,19 @@ public class Enemy : MonoBehaviour
             Instantiate(coinPrefab, transform.position, Quaternion.identity);
     }
 
-    //  피격 효과 메서드
+    private void TryDropPowerUp()
+    {
+        if (powerUpPrefabs == null || powerUpPrefabs.Length == 0)
+            return;
+
+        if (Random.value < powerUpDropChance)
+        {
+            GameObject prefabToDrop = powerUpPrefabs[Random.Range(0, powerUpPrefabs.Length)];
+            Instantiate(prefabToDrop, transform.position, Quaternion.identity);
+        }
+    }
+
+    // 피격 효과 메서드
     public void HitFlash()
     {
         StartCoroutine(HitFlashRoutine());
@@ -131,23 +143,9 @@ public class Enemy : MonoBehaviour
         spriter.color = originalColor;
     }
 
-    private void TryDropPowerUp()
-    {
-        if (powerUpPrefab == null || possiblePowerUps.Length == 0)
-            return;
-
-        if (Random.value < powerUpDropChance)
-        {
-            PowerUpItem randomItem = possiblePowerUps[Random.Range(0, possiblePowerUps.Length)];
-            GameObject drop = Instantiate(powerUpPrefab, transform.position, Quaternion.identity);
-            PowerUpItemInstance instance = drop.GetComponent<PowerUpItemInstance>();
-            instance.itemData = randomItem;
-        }
-    }
-
     private IEnumerator DelayedDestroy()
     {
-        yield return new WaitForSeconds(0.5f); // 애니메이션 길이에 맞게 설정
+        yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }
 }

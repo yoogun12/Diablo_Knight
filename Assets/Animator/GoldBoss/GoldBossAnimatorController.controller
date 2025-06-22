@@ -11,7 +11,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -1325374360432793848}
-    m_Position: {x: 290, y: 100, z: 0}
+    m_Position: {x: 290, y: 90, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8598440132965740313}
     m_Position: {x: 290, y: 200, z: 0}
@@ -83,7 +83,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: KNDie
+  m_Name: GoldBossDie
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -124,7 +124,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 392df77fee6a9e24fb2e21e4f18be920, type: 2}
+  m_Motion: {fileID: 7400000, guid: 512c608957277af4d92e0565ba163dc3, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -241,7 +241,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 22b6b2bde273d1543a0ee7ce5f0cf14a, type: 2}
+  m_Motion: {fileID: 7400000, guid: ee06b34f05cc65543bb4a685802cb82b, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

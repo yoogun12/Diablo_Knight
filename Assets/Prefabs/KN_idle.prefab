@@ -154,9 +154,11 @@ MonoBehaviour:
   contactDamage: 10
   coinPrefab: {fileID: 5886810017958339212, guid: 0eec16f9615ff994d81a187abdf55057, type: 3}
   coinDropChance: 1
-  powerUpPrefab: {fileID: 0}
+  powerUpPrefabs:
+  - {fileID: 3485545441584187170, guid: de41f49736c20564ea1b7b30680d38e0, type: 3}
+  - {fileID: 3757071342982358886, guid: 26d99d27897e29c4db085198977f8636, type: 3}
+  - {fileID: 5267241845472330999, guid: 3e9d6b10948e9584db80bd1ef1453f97, type: 3}
   powerUpDropChance: 0.2
-  possiblePowerUps: []
 --- !u!61 &300415317769762325
 BoxCollider2D:
   m_ObjectHideFlags: 0
