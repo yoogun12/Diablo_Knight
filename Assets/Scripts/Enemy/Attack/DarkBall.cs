@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class DarkBall : MonoBehaviour
 {
-    public float speed = 10f;
+    public float speed = 5f;
     public float lifeTime = 2f;
-    public int damage = 20;
+    public static int damage = 20;
 
     private Vector2 direction;
 

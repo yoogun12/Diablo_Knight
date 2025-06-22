@@ -2,41 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
 
 public class Timer : MonoBehaviour
 {
-    public float totalTime = 600f; // 10분 = 600초
+    public float totalTime = 600f; // 10분
     private float currentTime = 0f;
-
     public TextMeshProUGUI timerText;
 
-    private bool isTimerRunning = true;
+    public GameObject bossPrefab; // 보스 프리팹
+    public Transform bossSpawnPoint; // 보스 소환 위치
+
+    private bool bossSpawned = false;
 
     void Start()
     {
-        if (timerText == null)
-        {
-            Debug.LogError("TimerText가 할당되지 않았습니다.");
-            enabled = false;
-            return;
-        }
-
         currentTime = 0f;
         UpdateTimerUI();
     }
 
     void Update()
     {
-        if (!isTimerRunning) return;
-
         currentTime += Time.deltaTime;
 
-        if (currentTime >= totalTime)
+        // 치트키: T 키를 누르면 즉시 10분 도달 → 보스 소환
+        if (Input.GetKeyDown(KeyCode.T) && !bossSpawned)
         {
             currentTime = totalTime;
-            isTimerRunning = false;
-            TimerEnded();
+            bossSpawned = true;
+            SpawnBoss();
+            Debug.Log("치트키로 보스가 소환되었습니다.");
+        }
+
+        if (!bossSpawned && currentTime >= totalTime)
+        {
+            bossSpawned = true;
+            SpawnBoss();
         }
 
         UpdateTimerUI();
@@ -49,9 +49,9 @@ public class Timer : MonoBehaviour
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
-    void TimerEnded()
+    void SpawnBoss()
     {
-        Debug.Log("10분 버티기 완료! 클리어 씬으로 이동합니다.");
-        SceneManager.LoadScene("GameClear");  // 클리어 씬 이름에 맞게 수정하세요
+        Instantiate(bossPrefab, bossSpawnPoint.position, Quaternion.identity);
+        Debug.Log("보스 몬스터 소환됨!");
     }
 }

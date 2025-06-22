@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 {
     float moveSpeed = 3f;
     public int bulletCount = 1;
-    public float damage = 20f; //  파워업용 공격력 변수
+    public float damage = 20f;
 
     Rigidbody2D rb;
     Animator ani;
@@ -15,7 +15,6 @@ public class Player : MonoBehaviour
 
     public Vector2 input;
     Vector2 velocity;
-
     Vector2 lastInput = Vector2.right;
 
     [SerializeField] public GameObject bulletPrefab;
@@ -23,6 +22,14 @@ public class Player : MonoBehaviour
 
     private int sessionCoinScore = 0;
     public TextMeshProUGUI uiCoin;
+    public TextMeshProUGUI powerUpTimerText; // UI 연결용
+
+    private Dictionary<PowerUpItem.PowerUpType, Coroutine> activePowerUps = new();
+    private Dictionary<PowerUpItem.PowerUpType, float> remainingTimes = new(); // 남은 시간 추적
+
+    private int baseBulletCount = 1;
+    private float baseMoveSpeed = 3f;
+    private float powerUpDuration = 10f;
 
     private void Awake()
     {
@@ -64,7 +71,7 @@ public class Player : MonoBehaviour
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
             DarkBall darkBall = bullet.GetComponent<DarkBall>();
             darkBall.Initialize(shootDir.normalized);
-            darkBall.damage = Mathf.RoundToInt(damage); // float → int 변환
+            DarkBall.damage = Mathf.RoundToInt(damage);
         }
         else
         {
@@ -78,7 +85,7 @@ public class Player : MonoBehaviour
                 GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
                 DarkBall darkBall = bullet.GetComponent<DarkBall>();
                 darkBall.Initialize(dir.normalized);
-                darkBall.damage = Mathf.RoundToInt(damage); // float → int 변환
+                DarkBall.damage = Mathf.RoundToInt(damage);
             }
         }
     }
@@ -146,10 +153,64 @@ public class Player : MonoBehaviour
                 bulletPrefab.GetComponent<DarkBall>().speed += powerUp.powerUpValue;
                 break;
             case PowerUpItem.PowerUpType.Damage:
-                damage += powerUp.powerUpValue; //  파워업 적용
+                damage += powerUp.powerUpValue;
                 break;
         }
 
+        if (activePowerUps.ContainsKey(powerUp.powerUpType))
+        {
+            StopCoroutine(activePowerUps[powerUp.powerUpType]);
+        }
+
+        Coroutine routine = StartCoroutine(RemovePowerUpAfterDelay(powerUp));
+        activePowerUps[powerUp.powerUpType] = routine;
+
         Debug.Log($"PowerUp applied: {powerUp.itemName}");
+    }
+
+    private IEnumerator RemovePowerUpAfterDelay(PowerUpItem powerUp)
+    {
+        float timeLeft = powerUpDuration;
+        remainingTimes[powerUp.powerUpType] = timeLeft;
+
+        while (timeLeft > 0f)
+        {
+            timeLeft -= Time.deltaTime;
+            remainingTimes[powerUp.powerUpType] = timeLeft;
+            UpdatePowerUpUI(powerUp);
+            yield return null;
+        }
+
+        switch (powerUp.powerUpType)
+        {
+            case PowerUpItem.PowerUpType.BulletCount:
+                bulletCount = baseBulletCount;
+                break;
+            case PowerUpItem.PowerUpType.BulletSpeed:
+                bulletPrefab.GetComponent<DarkBall>().speed = 10f;
+                break;
+            case PowerUpItem.PowerUpType.Damage:
+                damage = 20f;
+                break;
+        }
+
+        remainingTimes.Remove(powerUp.powerUpType);
+        activePowerUps.Remove(powerUp.powerUpType);
+        if (remainingTimes.Count == 0 && powerUpTimerText != null)
+            powerUpTimerText.text = "";
+        Debug.Log($"{powerUp.itemName} 효과 종료됨");
+    }
+
+    private void UpdatePowerUpUI(PowerUpItem powerUp)
+    {
+        if (powerUpTimerText == null) return;
+
+        string result = "";
+        foreach (var kvp in remainingTimes)
+        {
+            result += $"{kvp.Key}: {kvp.Value:F1}s\n";
+        }
+
+        powerUpTimerText.text = result;
     }
 }
