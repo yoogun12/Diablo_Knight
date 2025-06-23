@@ -8,8 +8,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject swarmerPrefab;
     [SerializeField] private GameObject bigSwarmerPrefab;
 
-    [SerializeField] private float swarmerInterval = 3.5f;
-    [SerializeField] private float bigSwarmerInterval = 10f;
+    [SerializeField] public float swarmerInterval = 3.5f;
+    [SerializeField] public float bigSwarmerInterval = 10f;
 
     [SerializeField] private float spawnRadiusMin = 4f;   // 플레이어로부터 최소 거리
     [SerializeField] private float spawnRadiusMax = 8f;   // 최대 거리
