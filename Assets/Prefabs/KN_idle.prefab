@@ -153,7 +153,7 @@ MonoBehaviour:
   target: {fileID: 0}
   contactDamage: 10
   coinPrefab: {fileID: 5886810017958339212, guid: 0eec16f9615ff994d81a187abdf55057, type: 3}
-  coinDropChance: 1
+  coinDropChance: 0.8
   powerUpPrefabs:
   - {fileID: 3485545441584187170, guid: de41f49736c20564ea1b7b30680d38e0, type: 3}
   - {fileID: 3757071342982358886, guid: 26d99d27897e29c4db085198977f8636, type: 3}

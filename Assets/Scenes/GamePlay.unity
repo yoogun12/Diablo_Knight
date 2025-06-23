@@ -16331,8 +16331,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   swarmerPrefab: {fileID: 6314071317142647061, guid: 0bce8ac3788ac5642a4caa1e4ee340e6, type: 3}
   bigSwarmerPrefab: {fileID: 6314071317142647061, guid: 0bce8ac3788ac5642a4caa1e4ee340e6, type: 3}
-  swarmerInterval: 3.5
+  swarmerInterval: 3
   bigSwarmerInterval: 10
+  spawnRadiusMin: 4
+  spawnRadiusMax: 15
 --- !u!4 &226774548
 Transform:
   m_ObjectHideFlags: 0
@@ -16546,7 +16548,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.572
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -82362,6 +82364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 433f5472d10d6bf448204cee4767e67e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 3
   bulletCount: 1
   damage: 20
   bulletSpeed: 10

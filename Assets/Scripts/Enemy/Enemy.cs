@@ -19,8 +19,8 @@ public class Enemy : MonoBehaviour
     private Dictionary<GameObject, float> lastDamageTimeDict = new Dictionary<GameObject, float>();
 
     // 여러 파워업 프리팹 중 하나를 랜덤 드롭
-    public GameObject[] powerUpPrefabs; // 인스펙터에서 여러 프리팹 등록
-    [Range(0f, 1f)] public float powerUpDropChance = 0.2f; // 파워업 드롭 확률
+    public GameObject[] powerUpPrefabs;
+    [Range(0f, 1f)] public float powerUpDropChance = 0.2f;
 
     private bool isDead = false;
 
@@ -106,30 +106,31 @@ public class Enemy : MonoBehaviour
             ani.SetTrigger("Die");
         }
 
-        TryDropCoin();
-        TryDropPowerUp();
+        TryDropReward();  // 하나만 드롭
+
         StartCoroutine(DelayedDestroy());
     }
 
-    private void TryDropCoin()
+    private void TryDropReward()
     {
-        if (coinPrefab != null && Random.value < coinDropChance)
-            Instantiate(coinPrefab, transform.position, Quaternion.identity);
-    }
+        float rand = Random.value;
 
-    private void TryDropPowerUp()
-    {
-        if (powerUpPrefabs == null || powerUpPrefabs.Length == 0)
-            return;
-
-        if (Random.value < powerUpDropChance)
+        if (rand < coinDropChance)
         {
-            GameObject prefabToDrop = powerUpPrefabs[Random.Range(0, powerUpPrefabs.Length)];
-            Instantiate(prefabToDrop, transform.position, Quaternion.identity);
+            if (coinPrefab != null)
+                Instantiate(coinPrefab, transform.position, Quaternion.identity);
         }
+        else if (rand < coinDropChance + powerUpDropChance)
+        {
+            if (powerUpPrefabs != null && powerUpPrefabs.Length > 0)
+            {
+                GameObject prefabToDrop = powerUpPrefabs[Random.Range(0, powerUpPrefabs.Length)];
+                Instantiate(prefabToDrop, transform.position, Quaternion.identity);
+            }
+        }
+        // 아무것도 안 뜨는 경우도 있음
     }
 
-    // 피격 효과 메서드
     public void HitFlash()
     {
         StartCoroutine(HitFlashRoutine());
@@ -138,7 +139,7 @@ public class Enemy : MonoBehaviour
     private IEnumerator HitFlashRoutine()
     {
         Color originalColor = spriter.color;
-        spriter.color = new Color(1f, 1f, 1f, 0.6f); // 반투명 흰색
+        spriter.color = new Color(1f, 1f, 1f, 0.6f);
         yield return new WaitForSeconds(0.1f);
         spriter.color = originalColor;
     }
