@@ -16729,7 +16729,6 @@ RectTransform:
   - {fileID: 1554067313}
   - {fileID: 2096374044}
   - {fileID: 1651074473}
-  - {fileID: 925935370}
   - {fileID: 1664898736}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -81655,6 +81654,7 @@ MonoBehaviour:
   bossPrefab: {fileID: 984669801525125489, guid: d6294310cb2d65b4e9b99ec163f65968, type: 3}
   bossSpawnPoint: {fileID: 1589809906}
   warningText: {fileID: 2144632985}
+  rushText: {fileID: 0}
   redOutlines:
   - {fileID: 1583352711}
   - {fileID: 377711135}
@@ -81930,7 +81930,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1958427496}
-  m_Father: {fileID: 478724464}
+  m_Father: {fileID: 1472656027}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -82637,6 +82637,7 @@ RectTransform:
   - {fileID: 2144632987}
   - {fileID: 613615659}
   - {fileID: 1417874551}
+  - {fileID: 925935370}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -83249,8 +83250,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 535a9cd1432a1464cbdcff84ce192cd8, type: 2}
+  m_sharedMaterial: {fileID: 4011147635971253393, guid: 535a9cd1432a1464cbdcff84ce192cd8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
