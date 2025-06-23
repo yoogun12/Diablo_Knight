@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using System.Collections;
 
 [System.Serializable]
 public class PlayerData
@@ -61,7 +62,20 @@ public class GameDataManager : MonoBehaviour
 
     public void PlayerDead()
     {
-        SaveData(playerData); // 최신 playerData 저장
+        Player player = FindObjectOfType<Player>();
+        if (player != null)
+            player.OnGameOver();
+
         SceneManager.LoadScene("GameOver");
     }
+
+    public void GameClear()
+    {
+        Player player = FindObjectOfType<Player>();
+        if (player != null)
+            player.OnGameClear();
+
+        SceneManager.LoadScene("GameClear");
+    }
+
 }

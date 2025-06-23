@@ -29,7 +29,18 @@ public class GoldBossHealth : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            // 게임 클리어 씬으로 이동
+            // 1. 코인 저장
+            Player player = FindObjectOfType<Player>();
+            if (player != null)
+            {
+                player.OnGameClear(); // sessionCoinScore 저장됨
+            }
+            else
+            {
+                Debug.LogWarning("Player 오브젝트를 찾을 수 없습니다.");
+            }
+
+            // 2. 게임 클리어 씬 전환
             SceneManager.LoadScene("GameClear");
         }
     }

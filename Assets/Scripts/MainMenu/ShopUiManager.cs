@@ -20,4 +20,17 @@ public class ShopUiManager : MonoBehaviour
             Debug.LogWarning("GameDataManager 또는 playerData가 초기화되지 않았습니다.");
         }
     }
+
+    public void RefreshCoinText()
+    {
+        if (GameDataManager.Instance != null && GameDataManager.Instance.playerData != null)
+        {
+            int totalCoins = GameDataManager.Instance.playerData.totalCoins;
+            totalCoinText.text = "보유 코인: " + totalCoins.ToString();
+        }
+        else
+        {
+            totalCoinText.text = "보유 코인: 0";
+        }
+    }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [Header("Movement")]
-    float moveSpeed = 3f;
+    public float moveSpeed = 3f;
     Vector2 input;
     Vector2 velocity;
     Vector2 lastInput = Vector2.right;
@@ -39,6 +39,33 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         ani = GetComponent<Animator>();
         spriter = GetComponent<SpriteRenderer>();
+    }
+
+    private void Start()
+    {
+        if (uiCoin != null)
+            uiCoin.text = "0"; // 세션 시작 시 코인 UI 초기화
+
+        // 이동속도 업그레이드 반영
+        int savedSpeedLevel = PlayerPrefs.GetInt("SPEED_LEVEL", 0);
+        moveSpeed += savedSpeedLevel * 0.5f;
+
+        // 체력 업그레이드 반영
+        int savedHpLevel = PlayerPrefs.GetInt("HP_LEVEL", 0);
+        PlayerHealth playerHealth = GetComponent<PlayerHealth>();
+        if (playerHealth != null)
+        {
+            playerHealth.maxHealth += savedHpLevel * 20;
+            playerHealth.currentHealth = playerHealth.maxHealth;
+
+            if (playerHealth.hpSlider != null)
+            {
+                playerHealth.hpSlider.maxValue = playerHealth.maxHealth;
+                playerHealth.hpSlider.value = playerHealth.currentHealth;
+            }
+        }
+
+
     }
 
     private void Update()
@@ -108,7 +135,8 @@ public class Player : MonoBehaviour
                 return;
             }
 
-            sessionCoinScore += coin.GetCoin();
+            int coinValue = coin.GetCoin();
+            sessionCoinScore += coinValue;
 
             if (uiCoin != null)
                 uiCoin.text = sessionCoinScore.ToString();
@@ -122,10 +150,16 @@ public class Player : MonoBehaviour
     public void OnGameOver()
     {
         if (GameDataManager.Instance == null || GameDataManager.Instance.playerData == null)
-        {
-            Debug.LogError("GameDataManager.Instance 또는 playerData가 할당되어 있지 않습니다.");
             return;
-        }
+
+        GameDataManager.Instance.playerData.totalCoins += sessionCoinScore;
+        GameDataManager.Instance.SaveData(GameDataManager.Instance.playerData);
+    }
+
+    public void OnGameClear()
+    {
+        if (GameDataManager.Instance == null || GameDataManager.Instance.playerData == null)
+            return;
 
         GameDataManager.Instance.playerData.totalCoins += sessionCoinScore;
         GameDataManager.Instance.SaveData(GameDataManager.Instance.playerData);
