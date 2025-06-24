@@ -5,6 +5,8 @@ using TMPro;
 
 public class ShopUiManager : MonoBehaviour
 {
+
+    public GameObject shopPanel;
     public TextMeshProUGUI totalCoinText;
 
     private void OnEnable()
@@ -32,5 +34,17 @@ public class ShopUiManager : MonoBehaviour
         {
             totalCoinText.text = "보유 코인: 0";
         }
+    }
+
+    public void OpenShop()
+    {
+        shopPanel.SetActive(true);
+        SoundManager.Instance?.PlayShopBGM();
+    }
+
+    public void CloseShop()
+    {
+        shopPanel.SetActive(false);
+        SoundManager.Instance?.RestorePreviousBGM();
     }
 }

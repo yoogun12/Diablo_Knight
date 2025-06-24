@@ -312,6 +312,7 @@ GameObject:
   - component: {fileID: 85326376}
   - component: {fileID: 85326379}
   - component: {fileID: 85326378}
+  - component: {fileID: 85326380}
   - component: {fileID: 85326377}
   m_Layer: 5
   m_Name: PlayButton
@@ -434,6 +435,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 85326375}
   m_CullTransparentMesh: 1
+--- !u!114 &85326380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85326375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b9296937dd6874a862b840a1ff216a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSound: {fileID: 8300000, guid: f10e7ff812627164fa39911459400577, type: 3}
 --- !u!1 &119229248
 GameObject:
   m_ObjectHideFlags: 0
@@ -1103,7 +1117,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1202,6 +1216,9 @@ MonoBehaviour:
   gamePlayBGM: {fileID: 8300000, guid: ab1d6c8284aac433f950f27ea2253c15, type: 3}
   gameClearBGM: {fileID: 8300000, guid: 626bc169dd1354130a697094492ee6fd, type: 3}
   gameOverBGM: {fileID: 8300000, guid: 2e03ea08721f4428bad8a4aca5b4d869, type: 3}
+  warningBGM: {fileID: 8300000, guid: 83a0a974ab25a4adfba3cbb3a1aaa76e, type: 3}
+  bossBGM: {fileID: 8300000, guid: 2cc3962fef85b49c993d168c562e8650, type: 3}
+  shopBGM: {fileID: 8300000, guid: 1161b5933458749fb9458a2dffcb8ef1, type: 3}
 --- !u!4 &402036024
 Transform:
   m_ObjectHideFlags: 0
@@ -1632,6 +1649,7 @@ GameObject:
   - component: {fileID: 570972255}
   - component: {fileID: 570972258}
   - component: {fileID: 570972257}
+  - component: {fileID: 570972259}
   - component: {fileID: 570972256}
   m_Layer: 5
   m_Name: HelpExit
@@ -1754,6 +1772,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 570972254}
   m_CullTransparentMesh: 1
+--- !u!114 &570972259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 570972254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b9296937dd6874a862b840a1ff216a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSound: {fileID: 8300000, guid: f10e7ff812627164fa39911459400577, type: 3}
 --- !u!1 &646607468
 GameObject:
   m_ObjectHideFlags: 0
@@ -2167,6 +2198,7 @@ GameObject:
   - component: {fileID: 749968292}
   - component: {fileID: 749968295}
   - component: {fileID: 749968294}
+  - component: {fileID: 749968296}
   - component: {fileID: 749968293}
   m_Layer: 5
   m_Name: ShopButton
@@ -2251,6 +2283,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1529703538}
+        m_TargetAssemblyTypeName: ShopUiManager, Assembly-CSharp
+        m_MethodName: OpenShop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &749968294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2289,6 +2333,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 749968291}
   m_CullTransparentMesh: 1
+--- !u!114 &749968296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 749968291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b9296937dd6874a862b840a1ff216a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSound: {fileID: 8300000, guid: f10e7ff812627164fa39911459400577, type: 3}
 --- !u!1 &772570124
 GameObject:
   m_ObjectHideFlags: 0
@@ -2300,6 +2357,7 @@ GameObject:
   - component: {fileID: 772570125}
   - component: {fileID: 772570128}
   - component: {fileID: 772570127}
+  - component: {fileID: 772570129}
   - component: {fileID: 772570126}
   m_Layer: 5
   m_Name: ExitButton
@@ -2422,6 +2480,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 772570124}
   m_CullTransparentMesh: 1
+--- !u!114 &772570129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772570124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b9296937dd6874a862b840a1ff216a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSound: {fileID: 8300000, guid: f10e7ff812627164fa39911459400577, type: 3}
 --- !u!1 &778394102
 GameObject:
   m_ObjectHideFlags: 0
@@ -3647,6 +3718,7 @@ GameObject:
   - component: {fileID: 995211886}
   - component: {fileID: 995211889}
   - component: {fileID: 995211888}
+  - component: {fileID: 995211890}
   - component: {fileID: 995211887}
   m_Layer: 5
   m_Name: OptionExit
@@ -3769,6 +3841,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 995211885}
   m_CullTransparentMesh: 1
+--- !u!114 &995211890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 995211885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b9296937dd6874a862b840a1ff216a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSound: {fileID: 8300000, guid: f10e7ff812627164fa39911459400577, type: 3}
 --- !u!1 &1028093790
 GameObject:
   m_ObjectHideFlags: 0
@@ -4046,6 +4131,7 @@ GameObject:
   - component: {fileID: 1111023039}
   - component: {fileID: 1111023042}
   - component: {fileID: 1111023041}
+  - component: {fileID: 1111023043}
   - component: {fileID: 1111023040}
   m_Layer: 5
   m_Name: OptionButton
@@ -4168,6 +4254,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1111023038}
   m_CullTransparentMesh: 1
+--- !u!114 &1111023043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1111023038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b9296937dd6874a862b840a1ff216a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSound: {fileID: 8300000, guid: f10e7ff812627164fa39911459400577, type: 3}
 --- !u!1 &1114021416
 GameObject:
   m_ObjectHideFlags: 0
@@ -4499,6 +4598,7 @@ GameObject:
   - component: {fileID: 1262911687}
   - component: {fileID: 1262911690}
   - component: {fileID: 1262911689}
+  - component: {fileID: 1262911691}
   - component: {fileID: 1262911688}
   m_Layer: 5
   m_Name: ShopExit
@@ -4583,6 +4683,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1529703538}
+        m_TargetAssemblyTypeName: ShopUiManager, Assembly-CSharp
+        m_MethodName: CloseShop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1262911689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4621,6 +4733,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1262911686}
   m_CullTransparentMesh: 1
+--- !u!114 &1262911691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1262911686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b9296937dd6874a862b840a1ff216a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSound: {fileID: 8300000, guid: f10e7ff812627164fa39911459400577, type: 3}
 --- !u!1 &1526677327
 GameObject:
   m_ObjectHideFlags: 0
@@ -4798,6 +4923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a17ed2efacff1f4dad91fb08ddb7c26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shopPanel: {fileID: 1529703534}
   totalCoinText: {fileID: 698773518}
 --- !u!1 &1562408002
 GameObject:
@@ -5078,6 +5204,7 @@ GameObject:
   - component: {fileID: 1837007559}
   - component: {fileID: 1837007562}
   - component: {fileID: 1837007561}
+  - component: {fileID: 1837007563}
   - component: {fileID: 1837007560}
   m_Layer: 5
   m_Name: HelpButton
@@ -5200,6 +5327,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1837007558}
   m_CullTransparentMesh: 1
+--- !u!114 &1837007563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1837007558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b9296937dd6874a862b840a1ff216a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSound: {fileID: 8300000, guid: f10e7ff812627164fa39911459400577, type: 3}
 --- !u!1 &1842544720
 GameObject:
   m_ObjectHideFlags: 0

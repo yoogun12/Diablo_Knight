@@ -126,6 +126,7 @@ public class Timer : MonoBehaviour
     void SpawnBoss()
     {
         GameObject boss = Instantiate(bossPrefab, bossSpawnPoint.position, Quaternion.identity);
+        SoundManager.Instance?.PlayBGM(SoundManager.Instance.bossBGM);
         StartCoroutine(BossSummonSequence(boss.transform));
         Debug.Log("∫∏Ω∫ º“»Øµ !");
     }
@@ -148,6 +149,8 @@ public class Timer : MonoBehaviour
 
     IEnumerator ShowWarning()
     {
+        SoundManager.Instance?.PlayBGM(SoundManager.Instance.warningBGM);
+
         warningText.gameObject.SetActive(true);
         float duration = 10f;
         float elapsed = 0f;
