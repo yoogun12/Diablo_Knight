@@ -13,7 +13,7 @@ public class VolumeSliderController : MonoBehaviour
         // 슬라이더 초기값 설정
         volumeSlider.value = SoundManager.Instance.GetVolume();
 
-        // 슬라이더 값이 변경될 때 이벤트 등록
+        // 슬라이더 값 변경 이벤트 등록
         volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
     }
 

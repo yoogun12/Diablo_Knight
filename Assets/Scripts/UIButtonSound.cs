@@ -4,7 +4,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class UIButtonSound : MonoBehaviour
 {
-    public AudioClip clickSound; // 버튼마다 다른 효과음도 가능
+    public AudioClip clickSound; // 버튼마다 다른 효과음 가능
     private Button button;
 
     void Awake()
@@ -15,9 +15,9 @@ public class UIButtonSound : MonoBehaviour
 
     void PlayClickSound()
     {
-        if (clickSound != null)
+        if (clickSound != null && SoundManager.Instance != null)
         {
-            AudioSource.PlayClipAtPoint(clickSound, Camera.main.transform.position);
+            SoundManager.Instance.PlaySFX(clickSound);
         }
     }
 }

@@ -30,6 +30,9 @@ public class Player : MonoBehaviour
     private Dictionary<PowerUpItem.PowerUpType, Coroutine> activePowerUps = new();
     private Dictionary<PowerUpItem.PowerUpType, float> remainingTimes = new();
 
+    // 플래그 대신 Coroutine 저장해서 중복 실행 제어
+    private Coroutine flashCoroutine;
+
     Rigidbody2D rb;
     Animator ani;
     SpriteRenderer spriter;
@@ -167,7 +170,10 @@ public class Player : MonoBehaviour
 
     public void HitFlash()
     {
-        StartCoroutine(HitFlashRoutine());
+        // 이미 Coroutine이 실행 중이면 새로 실행하지 않음
+        if (flashCoroutine != null) return;
+
+        flashCoroutine = StartCoroutine(HitFlashRoutine());
     }
 
     private IEnumerator HitFlashRoutine()

@@ -5,7 +5,8 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
 
-    public AudioSource audioSource;
+    public AudioSource bgmAudioSource;    // 배경음악용 AudioSource
+    public AudioSource sfxAudioSource;    // 효과음용 AudioSource
 
     // 씬별 BGM
     public AudioClip mainMenuBGM;
@@ -69,41 +70,48 @@ public class SoundManager : MonoBehaviour
                 PlayBGM(gameOverBGM);
                 break;
             default:
-                audioSource.Stop();
+                bgmAudioSource.Stop();
                 break;
         }
     }
 
     public void PlayBGM(AudioClip clip)
     {
-        if (audioSource.clip == clip) return; // 이미 재생 중이면 무시
-        audioSource.clip = clip;
-        audioSource.loop = true;
-        audioSource.Play();
+        if (bgmAudioSource.clip == clip) return; // 이미 재생 중이면 무시
+        bgmAudioSource.clip = clip;
+        bgmAudioSource.loop = true;
+        bgmAudioSource.Play();
     }
 
-    // 현재 브금 가져오기
+    public void PlaySFX(AudioClip clip)
+    {
+        if (clip == null) return;
+        sfxAudioSource.PlayOneShot(clip, sfxAudioSource.volume);
+    }
+
+    // BGM 볼륨 가져오기
     public float GetVolume()
     {
-        return audioSource.volume;
+        return bgmAudioSource.volume;
     }
 
+    // BGM 볼륨 설정하기
     public void SetVolume(float value)
     {
-        audioSource.volume = value;
+        bgmAudioSource.volume = value;
+        sfxAudioSource.volume = value; // 효과음 볼륨도 같이 설정
     }
 
-    //  상점 브금 재생
+    // 상점 브금 재생
     public void PlayShopBGM()
     {
         if (shopBGM == null) return;
 
-        // 현재 브금 저장 후 교체
-        previousBGM = audioSource.clip;
+        previousBGM = bgmAudioSource.clip;
         PlayBGM(shopBGM);
     }
 
-    //  이전 브금 복원
+    // 이전 브금 복원
     public void RestorePreviousBGM()
     {
         if (previousBGM != null)

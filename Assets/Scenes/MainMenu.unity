@@ -1211,7 +1211,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d0886ce5536a664e8d769b5b2ff6fd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 402036022}
+  bgmAudioSource: {fileID: 402036022}
+  sfxAudioSource: {fileID: 402036022}
   mainMenuBGM: {fileID: 8300000, guid: b15ff5a2e363844f495045993610505b, type: 3}
   gamePlayBGM: {fileID: 8300000, guid: ab1d6c8284aac433f950f27ea2253c15, type: 3}
   gameClearBGM: {fileID: 8300000, guid: 626bc169dd1354130a697094492ee6fd, type: 3}
