@@ -93,7 +93,7 @@ public class SoundManager : MonoBehaviour
         audioSource.volume = value;
     }
 
-    // 상점 브금 재생
+    //  상점 브금 재생
     public void PlayShopBGM()
     {
         if (shopBGM == null) return;
@@ -103,7 +103,7 @@ public class SoundManager : MonoBehaviour
         PlayBGM(shopBGM);
     }
 
-    // 이전 브금 복원
+    //  이전 브금 복원
     public void RestorePreviousBGM()
     {
         if (previousBGM != null)
