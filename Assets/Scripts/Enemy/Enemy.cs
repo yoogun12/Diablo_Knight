@@ -106,6 +106,13 @@ public class Enemy : MonoBehaviour
             ani.SetTrigger("Die");
         }
 
+        // 콜라이더 비활성화
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null)
+        {
+            col.enabled = false;
+        }
+
         TryDropReward();  // 하나만 드롭
 
         StartCoroutine(DelayedDestroy());

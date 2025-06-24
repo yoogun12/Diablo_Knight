@@ -91,11 +91,10 @@ public class GoldBoss : MonoBehaviour
             lastDamageTimeDict.Remove(collision.gameObject);
     }
 
-    // 피격 이펙트 (중복 실행 방지)
     public void HitFlash()
     {
-        if (flashCoroutine != null)
-            StopCoroutine(flashCoroutine);
+        // 이미 Coroutine이 실행 중이면 새로 실행하지 않음
+        if (flashCoroutine != null) return;
 
         flashCoroutine = StartCoroutine(HitFlashRoutine());
     }

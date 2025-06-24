@@ -209,5 +209,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d0f2348895cc2f44a40fc560ce2551e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 1000
   damageTextPrefab: {fileID: 3109865443709745965, guid: 2b5ff2bbaa6de8e459430b1c10e6cbfb, type: 3}
+  timer: {fileID: 0}
